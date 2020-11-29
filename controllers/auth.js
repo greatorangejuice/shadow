@@ -1,6 +1,8 @@
 module.exports.login = function (req, res) {
+    console.log(req.body);
     res.status(200).json({
-        login: true,
+        email: req.body.email,
+        password: req.body.password,
     })
 };
 
@@ -9,4 +11,4 @@ module.exports.register = function (req,res) {
     res.status(200).json({
         register: true,
     })
-}
+};
