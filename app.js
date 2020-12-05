@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport= require('passport');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -20,6 +21,10 @@ const dbConnection = mongoose.connection;
 dbConnection.on('error', err => console.log(`Connection error ${err}`));
 dbConnection.once('open', () => console.log('Connected to db'));
 
+
+require('./middleware/passportMiddleware')(passport);
+
+app.use(passport.initialize())
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
