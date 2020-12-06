@@ -6,6 +6,7 @@ const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async function (req, res) {
     const candidate = await User.findOne({email: req.body.email});
+    console.log(candidate);
 
     if (candidate) {
         //check pass
@@ -13,11 +14,14 @@ module.exports.login = async function (req, res) {
         if (passwordResult) {
             const token = JWT.sign({
                 email: candidate.email,
+                username: candidate.username,
                 userId: candidate._id,
             }, `${keys.JWTKey}`, {expiresIn: 3600});
 
             res.status(200).json({
                 token: `Bearer ${token}`,
+                email: req.body.email,
+                username: req.body.username,
             })
         } else {
             res.status(401).json({
@@ -36,14 +40,15 @@ module.exports.login = async function (req, res) {
     const candidate = await User.findOne({email: req.body.email});
      if (candidate) {
         res.status(409).json({
-            message: 'This email is already taken',
+            message: 'This email or username is already taken',
         })
      } else {
          const salt = bcrypt.genSaltSync(10);
          const password = req.body.password;
          const user = new User({
              email: req.body.email,
-             password: bcrypt.hashSync(password, salt)
+             username: req.body.username,
+             password: bcrypt.hashSync(password, salt),
          });
 
          try {

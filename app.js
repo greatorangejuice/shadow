@@ -30,8 +30,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use('/auth', authRoutes);
-app.use('/users', usersRoutes);
-app.use('/universities', univRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/universities', univRoutes);
 
 module.exports = app;
