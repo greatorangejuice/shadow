@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
+const univRoutes = require('./routes/universities');
 const app = express();
 
 mongoose.connect (
@@ -29,7 +30,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/auth', authRoutes);
+app.use('/users', usersRoutes);
+app.use('/universities', univRoutes);
 
 module.exports = app;
