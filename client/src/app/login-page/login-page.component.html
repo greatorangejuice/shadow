@@ -1,0 +1,55 @@
+<div class="container">
+  <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-control">
+      <label>
+        <input type="text" placeholder="Email" formControlName="email">
+      </label>
+      <div *ngIf="form.pending">Loading</div>
+      <div
+        *ngIf="form.get('email').invalid && form.get('email').touched"
+        class="validation">
+        <small *ngIf="form.get('email').errors.required">
+          email не может быть пустым
+        </small>
+
+        <small *ngIf="form.get('email').errors.email">
+          Email is not correct
+        </small>
+
+        <small *ngIf="form.get('email').errors.restrictedEmail">
+          Email is bad
+        </small>
+
+        <small *ngIf="form.get('email').errors.uniqEmail">
+          Email {{form.get('email').value}} занят
+        </small>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label>
+        <input type="text" placeholder="password" formControlName="password">
+      </label>
+
+      <div
+        *ngIf="form.get('password').invalid && form.get('password').touched"
+        class="validation">
+        <small *ngIf="form.get('password').errors.minlength">
+          Еще {{form.get('password').errors.minlength.requiredLength - form.get('password').errors.minlength.actualLength}} символа.
+        </small>
+      </div>
+    </div>
+
+    <div formGroupName="skills">
+<!--      {{form.get('skills') | json}}-->
+      <button (click)="addSkill()" type="button">Add skill</button>
+      <div class="form-control" *ngFor="let control of form.get('skills').controls; let idx = index">
+        <label>Skill {{idx + 1}}</label>
+        <input type="text" [formControlName]=idx>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || form.pending">Sign In</button>
+  </form>
+</div>
